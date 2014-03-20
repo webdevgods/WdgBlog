@@ -12,6 +12,6 @@ return array(
         },
         'wdgblog_repos_category' => function ($sm) {
             return $sm->get('wdguser_doctrine_em')->getRepository("WdgBlog\Entity\Category");
-        },
+        }
     )
 );
