@@ -10,7 +10,6 @@ use Zend\Form\Form,
     WdgBlog\Entity\Category as CategoryEntity,
     WdgBlog\Exception\Service\Blog\FormException as FormException;
 
-
 class Blog extends ServiceAbstract
 {
     /**
