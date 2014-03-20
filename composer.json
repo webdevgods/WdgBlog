@@ -1,0 +1,45 @@
+{
+    "name": "webdevgods/wdg-blog",
+    "description": "A general pupose Zend2/Doctrine blog module.",
+    "type": "zf-module",
+    "license": "MIT",
+    "keywords": [
+        "library",
+        "libs",
+        "ZF2",
+        "blog",
+        "Zend Framework",
+        "webdevgods",
+        "wdg",
+        "module"
+    ],
+    "homepage": "https://github.com/webdevgods/WdgBlog",
+    "authors": [
+        {
+            "name": "Jessie Green",
+            "email": "jessie.ims@gmail.com",
+            "homepage": "http://jessiegreen.com/"
+        },
+        {
+            "name": "Dustin Moorman",
+            "email": "dustinmoorman@gmail.com",
+            "homepage": "http://dustinmoorman.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "~2.1"
+    },
+    "suggest": {
+        "webdevgods/wdg-zf2": "Base set of libraries for using Zend Framework 2.",
+        "webdevgods/wdg-base": "Base set of libraries for general php deeds."
+    },
+    "autoload": {
+        "psr-0": {
+            "WdgBlog": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
