@@ -22,14 +22,14 @@
         },
         {
             "name": "Dustin Moorman",
-            "email": "dustinmoorman@gmail.com",
+            "email": "dustin.moorman@gmail.com",
             "homepage": "http://dustinmoorman.com/"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "~2.1",
-        "doctrine/doctrine-orm-module": ">=0.7",
+        "doctrine/doctrine-orm-module": ">=0.7"
     },
     "suggest": {
         "webdevgods/wdg-zf2": "Base set of libraries for using Zend Framework 2.",
