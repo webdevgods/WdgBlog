@@ -8,10 +8,10 @@ return array(
     ),
     'factories' => array(
         'wdgblog_repos_post' => function ($sm) {
-            return $sm->get('wdguser_doctrine_em')->getRepository("WdgBlog\Entity\Post");
+            return $sm->get('wdgblog_doctrine_em')->getRepository("WdgBlog\Entity\Post");
         },
         'wdgblog_repos_category' => function ($sm) {
-            return $sm->get('wdguser_doctrine_em')->getRepository("WdgBlog\Entity\Category");
+            return $sm->get('wdgblog_doctrine_em')->getRepository("WdgBlog\Entity\Category");
         }
     )
 );
