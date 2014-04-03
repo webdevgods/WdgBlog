@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection,
     WdgDoctrine2\Entity\Entity,
-    WdgUser\Entity\User as UserEntity;
+    ZfcUserDoctrineORM\Entity\User as UserEntity;
 
 /**
  * Post
@@ -95,8 +95,8 @@ class Post extends Entity
     /**
      * @var \WdgUser\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="WdgUser\Entity\User")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", unique=false, nullable=false)
+     * @ORM\ManyToOne(targetEntity="ZfcUserDoctrineORM\Entity\User")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="user_id", unique=false, nullable=false)
      */
     protected $Author;
 

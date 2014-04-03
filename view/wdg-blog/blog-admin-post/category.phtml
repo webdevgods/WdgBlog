@@ -2,12 +2,6 @@
 /* @var $form Zend\Form\Form */
 $form = $this->form;
 ?>
-<ul class="breadcrumb">
-    <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
-    <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
-    <li><a href="<?php echo $this->url("wdgadmin/blog_post_list");?>">Posts</a> <span class="divider">/</span></li>
-    <li class="active">Categories</li>
-</ul>
 <div>
     <?php
         echo $this->form()->openTag($this->form);

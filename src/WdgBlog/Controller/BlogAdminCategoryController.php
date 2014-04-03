@@ -15,7 +15,7 @@ class BlogAdminCategoryController extends AbstractActionController
         $paginator  = $this->getBlogService()->getCategoriesPaginator($page, 10);
         
         if($paginator->count() >0 && $paginator->count() < $page)
-            $this->redirect()->toRoute("wdgadmin/blog_category_list");
+            $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/list");
         
         return new ViewModel(array("paginator" => $paginator));
     }
@@ -47,7 +47,7 @@ class BlogAdminCategoryController extends AbstractActionController
                 
                 $this->flashMessenger()->addSuccessMessage("Added Category");
 
-                return $this->redirect()->toRoute("wdgadmin/blog_category_show", array("id" => $Category->getId()));
+                return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/show", array("id" => $Category->getId()));
             }
             catch (\WdgBlog\Exception\Service\Blog\FormException $exc)
             {
@@ -82,7 +82,7 @@ class BlogAdminCategoryController extends AbstractActionController
                 
                 $this->flashMessenger()->addSuccessMessage("Edited Category");
 
-                return $this->redirect()->toRoute("wdgadmin/blog_category_show", array("id" => $Category->getId()));
+                return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/show", array("id" => $Category->getId()));
             }
             catch (\WdgBlog\Exception\Service\Blog\FormException $exc)
             {

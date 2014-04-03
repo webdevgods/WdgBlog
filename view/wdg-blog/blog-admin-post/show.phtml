@@ -2,12 +2,6 @@
 if($this->post)
 {
     ?>
-    <ul class="breadcrumb">
-        <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
-        <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
-        <li><a href="<?php echo $this->url("wdgadmin/blog_post_list");?>">Posts</a> <span class="divider">/</span></li>
-        <li class="active">#<?php echo $this->post->getId();?></li>
-    </ul>
     <div class="pull-left" style='width:60%'>
         <ul class="nav nav-tabs" id="myTab1" style="margin-bottom:10px">
             <li class="active"><a>Info</a></li>
@@ -15,7 +9,7 @@ if($this->post)
         <div class="tab-content">
             <div class="tab-pane active" id="info">
                 <div class="wdgadmin-toolbar">
-                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Post" href="<?php echo $this->url("wdgadmin/blog_post_edit", array("id" => $this->post->getId()));?>">
+                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/edit", array("id" => $this->post->getId()));?>">
                         <i class="icon-pencil"></i>
                     </a>
                 </div>
@@ -42,7 +36,7 @@ if($this->post)
                 <div class="wdgadmin-toolbar">
                     <a class="btn btn-small btn-primary addtooltip-right" 
                        title="Manage Categories" 
-                       href="<?php echo $this->url("wdgadmin/blog_post_category", array("id" => $this->post->getId()));?>"
+                       href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category", array("id" => $this->post->getId()));?>"
                     >
                         <i class="icon-list"></i>
                     </a>

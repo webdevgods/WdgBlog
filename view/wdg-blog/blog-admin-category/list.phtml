@@ -2,13 +2,8 @@
 /* @var $paginator \Zend\Paginator\Paginator */
 $paginator = $this->paginator;
 ?>
-<ul class="breadcrumb">
-    <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a><span class="divider">/</span></li>
-    <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a><span class="divider">/</span></li>
-    <li class="active">Category List</li>
-</ul>
 <div class="wdgadmin-toolbar">
-    <a title="Add Category" href="<?php echo $this->url("wdgadmin/blog_category_add");?>" class="btn btn-small btn-primary addtooltip-left">
+    <a title="Add Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/add");?>" class="btn btn-small btn-primary addtooltip-left">
         <i class="icon-plus"></i>
     </a>
 </div>
@@ -27,7 +22,7 @@ $paginator = $this->paginator;
         ?>
         <tr>
             <td>
-                <a title="Show Category" href="<?php echo $this->url("wdgadmin/blog_category_show", array("id" => $Category->getId()));?>" class="btn btn-mini addtooltip-left">
+                <a title="Show Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/show", array("id" => $Category->getId()));?>" class="btn btn-mini addtooltip-left">
                     <i class="icon-eye-open"></i>
                 </a>
             </td>
@@ -37,7 +32,7 @@ $paginator = $this->paginator;
             <td><?php echo $Category->getCreated()->format("m-d-Y");?></td>
             <td>
                 <a title="Delete Category" 
-                   href="<?php echo $this->url("wdgadmin/blog_category_delete", array("id" => $Category->getId()));?>" 
+                   href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/delete", array("id" => $Category->getId()));?>" 
                    class="btn btn-danger btn-mini addtooltip-right"
                 >
                     <i class="icon-trash"></i>
@@ -58,6 +53,6 @@ $paginator = $this->paginator;
     'partial/paginator-item-control.phtml',
      // the route to link to when a user clicks a control link
      array(
-         'route' => 'wdgadmin/blog_category_list'
+         'route' => 'zfcadmin/wdg-blog-admin/post/category/list'
      )
  );

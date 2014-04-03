@@ -1,0 +1,31 @@
+<?php
+echo "<h1>".$this->category->getName()."</h1>";
+
+foreach($this->paginator as $post)
+{
+    echo $post->getThumbnailHtml(" style='width:100px;float:left;clear:left;margin-right:10px;' ");
+    echo "<h3 style='margin-top:0;padding-top:0;line-height:20px;'>".$post->getTitle()."</h3>";
+    echo "By: <a href='".$this->url(
+                "home/contributor", 
+                array("id" => $post->getAuthor()->getId())
+            )."'>".
+            $post->getAuthor()->getDisplayName().
+            "</a><br />";
+    echo $post->getCreated()->format("M j, Y g:i a")."<br /><br />";
+    echo $post->getExcerpt()."<a href='".$this->url("home/blog/post", array("slug" => $post->getSlug()))."'>...more</a>";
+    echo "<div style='clear:both;'></div><hr />";
+}
+
+echo $this->paginationControl(
+    // the paginator object
+    $this->paginator,
+    // the scrolling style
+    'sliding',
+    // the partial to use to render the control
+   'partial/paginator-item-control.phtml',
+    // the route to link to when a user clicks a control link
+    array(
+        'route' => 'home/blog/category',
+        'route_params' => array("slug" => $this->category->getSlug())
+    )
+);

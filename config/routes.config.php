@@ -5,9 +5,9 @@ return array(
             'wdg-blog' => array(
                 'type' => 'literal',
                 'options' => array(
-                    'route' => 'blog',
+                    'route' => '/blog',
                     'defaults' => array(
-                        'controller' => 'WdgPublic\Controller\BlogController',
+                        'controller' => 'WdgBlog\Controller\Blog',
                         'action' => 'index'
                     )
                 ),
@@ -21,7 +21,7 @@ return array(
                                 'slug' => '[a-zA-Z0-9_-]+'
                             ),
                             'defaults' => array(
-                                'controller' => 'WdgPublic\Controller\Blog',
+                                'controller' => 'WdgBlog\Controller\Blog',
                                 'action' => 'post'
                             )
                         ),
@@ -35,7 +35,7 @@ return array(
                             ),
                             'defaults' => array(
                                 'page' => 1,
-                                'controller' => 'WdgPublic\Controller\Blog',
+                                'controller' => 'WdgBlog\Controller\Blog',
                                 'action' => 'category'
                             )
                         ),
@@ -45,7 +45,7 @@ return array(
                         'options' => array(
                             'route' => 'contributor/[:id]',
                             'defaults' => array(
-                                'controller' => 'WdgPublic\Controller\Contributor',
+                                'controller' => 'WdgBlog\Controller\Contributor',
                                 'action' => 'index'
                             )
                         ),
@@ -61,26 +61,34 @@ return array(
                         'options' => array(
                             'route' => '/blog',
                             'defaults' => array(
-                                'controller' => 'WdgBlog\Controller\Index',
+                                'controller' => 'WdgBlog\Controller\BlogAdmin',
                                 'action'     => 'index',
                             ),
                         ),
+                        'may_terminate' => true,
                         'child_routes' => array(
                             'post' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => 'post[/:id]',
-                                    'defaults' => array(
-                                        'controller' => 'WdgBlog\Controller\BlogAdminPost',
-                                        'action' => 'show'
-                                    )
+                                    'route' => '/post'
                                 ),
-                                'may_terminate' => true,
                                 'child_routes' => array(
+                                    'show' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '[/:id]',
+                                            'defaults' => array(
+                                                'controller' => 'WdgBlog\Controller\BlogAdminPost',
+                                                'action' => 'show'
+                                            )
+                                        ),
+                                        'may_terminate' => true,                                        
+                                        'priority' => 100,
+                                    ),
                                     'list' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'list[/:page]',
+                                            'route' => '/list[/:page]',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'list',
@@ -88,11 +96,13 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        
+                                        'priority' => 100,
                                     ),
                                     'add' => array(
                                         'type' => 'Literal',
                                         'options' => array(
-                                            'route' => 'add',
+                                            'route' => '/add',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'add'
@@ -103,7 +113,7 @@ return array(
                                     'blog_post_delete' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'delete[/:id]',
+                                            'route' => '/delete[/:id]',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'delete'
@@ -114,7 +124,7 @@ return array(
                                     'edit' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'edit[/:id]',
+                                            'route' => '/edit[/:id]',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'edit'
@@ -125,7 +135,7 @@ return array(
                                     'categories' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'categories[/:id]',
+                                            'route' => '/categories[/:id]',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'categories'
@@ -138,9 +148,9 @@ return array(
                             'category' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => 'category[/:id]',
+                                    'route' => '/category[/:id]',
                                     'defaults' => array(
-                                        'controller' => 'WdgAdmin\Controller\BlogCategory',
+                                        'controller' => 'WdgBlog\Controller\BlogAdminCategory',
                                         'action' => 'show'
                                     )
                                 ),
@@ -149,9 +159,9 @@ return array(
                                     'list' => array(
                                         'type' => 'Literal',
                                         'options' => array(
-                                            'route' => 'list',
+                                            'route' => '/list',
                                             'defaults' => array(
-                                                'controller' => 'WdgAdmin\Controller\BlogAdminCategory',
+                                                'controller' => 'WdgBlog\Controller\BlogAdminCategory',
                                                 'action' => 'list'
                                             )
                                         ),
@@ -160,9 +170,9 @@ return array(
                                     'add' => array(
                                         'type' => 'Literal',
                                         'options' => array(
-                                            'route' => 'add',
+                                            'route' => '/add',
                                             'defaults' => array(
-                                                'controller' => 'WdgAdmin\Controller\BlogAdminCategory',
+                                                'controller' => 'WdgBlog\Controller\BlogAdminCategory',
                                                 'action' => 'add'
                                             )
                                         ),
@@ -171,9 +181,9 @@ return array(
                                     'delete' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'delete[/:id]',
+                                            'route' => '/delete[/:id]',
                                             'defaults' => array(
-                                                'controller' => 'WdgAdmin\Controller\BlogAdminCategory',
+                                                'controller' => 'WdgBlog\Controller\BlogAdminCategory',
                                                 'action' => 'delete'
                                             )
                                         ),
@@ -182,9 +192,9 @@ return array(
                                     'edit' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => 'edit[/:id]',
+                                            'route' => '/edit[/:id]',
                                             'defaults' => array(
-                                                'controller' => 'WdgAdmin\Controller\BlogAdminCategory',
+                                                'controller' => 'WdgBlog\Controller\BlogAdminCategory',
                                                 'action' => 'edit'
                                             )
                                         ),

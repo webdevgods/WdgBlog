@@ -2,7 +2,7 @@
 namespace WdgBlog\Service;
 
 use Zend\Form\Form,
-    WdgBase\Service\ServiceAbstract,
+    WdgZf2\Service\ServiceAbstract,
     DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter,
     Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator,
     Zend\Paginator\Paginator as ZendPaginator,

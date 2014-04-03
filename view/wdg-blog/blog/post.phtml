@@ -1,0 +1,14 @@
+<?php
+if($this->post)
+{
+    echo "<h2>".$this->post->getTitle()."</h2>";
+    echo "By: <a href='".
+            $this->url(
+                "home/contributor", 
+                array("id" => $this->post->getAuthor()->getId())
+            )."'>";
+    echo $this->post->getAuthor()->getDisplayName();
+    echo "</a><br />";
+    echo $this->post->getCreated()->format("M j, Y g:i a")."<br /><br />";
+    echo $this->post->getBody();
+}

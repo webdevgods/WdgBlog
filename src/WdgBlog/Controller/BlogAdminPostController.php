@@ -1,38 +1,33 @@
 <?php
-namespace WdgAdmin\Controller;
+namespace WdgBlog\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class BlogPostController extends AbstractActionController
+class BlogAdminPostController extends AbstractActionController
 {
     protected $blogService;
     
     public function listAction()
-    {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
+    {        
         $page       = (int) $this->params()->fromRoute('page', 0);
         $paginator  = $this->getBlogService()->getLatestPostsPaginator($page, 10);
         
         if($paginator->count() >0 && $paginator->count() < $page)
-            $this->redirect()->toRoute("wdgadmin/blog_post_list");
+            $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/list");
         
         return new ViewModel(array("paginator" => $paginator));
     }
     
     public function showAction()
-    {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
+    {        
         $id = (int) $this->params()->fromRoute('id', 0);
         
         return new ViewModel(array("post" => $this->getBlogService()->getPostById($id)));
     }
     
     public function addAction()
-    {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
+    {        
         $this->getServiceLocator()
             ->get('viewhelpermanager')
             ->get('HeadScript')
@@ -52,7 +47,7 @@ class BlogPostController extends AbstractActionController
                 
                 $this->flashMessenger()->addSuccessMessage("Added Post");
 
-                return $this->redirect()->toRoute("wdgadmin/blog_post_show", array("id" => $Post->getId()));
+                return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/show", array("id" => $Post->getId()));
             }
             catch (\WdgBlog\Exception\Service\Blog\FormException $exc)
             {
@@ -70,9 +65,7 @@ class BlogPostController extends AbstractActionController
     }
     
     public function editAction()
-    {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
+    {        
         $this->getServiceLocator()
             ->get('viewhelpermanager')
             ->get('HeadScript')
@@ -92,7 +85,7 @@ class BlogPostController extends AbstractActionController
                 
                 $this->flashMessenger()->addSuccessMessage("Edited Post");
 
-                return $this->redirect()->toRoute("wdgadmin/blog_post_show", array("id" => $Post->getId()));
+                return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/show", array("id" => $Post->getId()));
             }
             catch (\WdgBlog\Exception\Service\Blog\FormException $exc)
             {
@@ -110,9 +103,7 @@ class BlogPostController extends AbstractActionController
     }
     
     public function categoriesAction()
-    {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
+    {        
         $service    = $this->getBlogService();
         $id         = $this->getEvent()->getRouteMatch()->getParam("id");
         $form       = $service->getPostCategoryForm($id);
@@ -129,7 +120,7 @@ class BlogPostController extends AbstractActionController
                 
                 $this->flashMessenger()->addSuccessMessage("Post Categories Saved");
 
-                return $this->redirect()->toRoute("wdgadmin/blog_post_show", array("id" => $Post->getId()));
+                return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/show", array("id" => $Post->getId()));
             }
             catch (\WdgBlog\Exception\Service\Blog\FormException $exc)
             {
