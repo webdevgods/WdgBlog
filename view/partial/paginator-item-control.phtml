@@ -1,0 +1,41 @@
+<?php
+//TODO: Create a slider or whatever if pages greater than x amount
+$route_params       = is_array($this->route_params) ? $this->route_params : array();
+$current_page_num   = $this->current;
+$count              = $this->pageCount;
+$current_page_start = ($current_page_num-1) * $this->itemCountPerPage + 1; 
+$current_page_count = $this->currentItemCount;
+?>
+<div class="pagination pagination-centered">
+    <ul>
+        <li class="<?php echo $current_page_num == 1 ? "disabled" : "";?>">            
+            <a 
+                <?php if($current_page_num > 1):?>
+                href="<?php echo $this->url($this->route, array_merge($route_params, array("page" => ($current_page_num-1))));?>"
+                <?php endif;?>
+            >&laquo;</a>            
+        </li>
+        <?php
+        for($i = 1;$i <= $count;$i++)
+        {
+            ?>
+            <li class="<?php echo $current_page_num == $i ? "active" : "";?>" >
+                <a href="<?php echo $this->url($this->route, array_merge($route_params, array("page" => $i)));?>"><?php echo $i;?></a>
+            </li>
+            <?php
+        }
+        ?>
+        <li class="<?php echo $current_page_num == $count ? "disabled" : "";?>">
+            <a 
+                <?php if($current_page_num < $count):?>
+                href="<?php echo $this->url($this->route, array_merge($route_params, array("page" => ($current_page_num+1))));?>"
+                <?php endif;?>
+            >&raquo;</a>
+        </li>
+    </ul>
+    <div class="controls">
+        <div class="badge badge-info">
+            <?php echo $current_page_start." to ".($current_page_start + ($current_page_count-1)) ." of ".$this->totalItemCount;?>
+        </div>
+    </div>
+</div>

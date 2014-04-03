@@ -1,0 +1,47 @@
+<?php
+if($this->category)
+{
+    ?>
+    <ul class="breadcrumb">
+        <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
+        <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
+        <li><a href="<?php echo $this->url("wdgadmin/blog_category_list");?>">Categories</a> <span class="divider">/</span></li>
+        <li class="active">#<?php echo $this->category->getId();?></li>
+    </ul>
+    <div class="pull-left" style='width:60%'>
+        <ul class="nav nav-tabs" id="myTab1" style="margin-bottom:10px">
+            <li class="active"><a>Info</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="info">
+                <div class="wdgadmin-toolbar">
+                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Category" href="<?php echo $this->url("wdgadmin/blog_category_edit", array("id" => $this->category->getId()));?>">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </div>
+                <table class="table table-condensed" >
+                    <tr><th>Id</th><td><?php echo $this->category->getId();?></td></tr>
+                    <tr><th>Title</th><td><?php echo $this->category->getName();?></td></tr>
+                    <tr><th>Slug</th><td><?php echo $this->category->getSlug();?></td></tr>
+                    <tr><th>Created</th><td><?php echo $this->category->getCreated()->format("m-d-Y");?></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right" style='width:35%;'>
+        <ul class="nav nav-tabs" id="myTab" style="margin-bottom:10px">
+            <li class="active"><a href="#submittals">N/A</a></li>
+            <!--<li><a href="#notes">Notes</a></li>-->
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="submittals">
+
+            <!--<div class="tab-pane" id="notes">Notes</div>-->
+            </div>
+        </div>
+    </div>
+    <?php
+}
+else echo "<div class='alert alert-block alert-error'>No blog category with that id</div>";
+?>
+<div class="clearfix"></div>

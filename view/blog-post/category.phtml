@@ -1,0 +1,55 @@
+<?php
+/* @var $form Zend\Form\Form */
+$form = $this->form;
+?>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url("wdgadmin/blog_post_list");?>">Posts</a> <span class="divider">/</span></li>
+    <li class="active">Categories</li>
+</ul>
+<div>
+    <?php
+        echo $this->form()->openTag($this->form);
+        echo $this->post->getTitle()." - manage categories";
+    ?>
+    <dl class="zend_form">
+        <?php 
+        $id = $form->get("id");
+        
+        echo $this->formHidden($id).$this->formElementErrors($id);
+        
+        $categories = $form->get("categories");
+        ?>
+        <dt><?php echo $this->formLabel($categories);?></dt>
+        <?php
+        if($categories instanceof Zend\Form\Element\Hidden)
+            echo $this->formHidden($categories).$this->formElementErrors($categories);
+        else
+        {
+            ?>
+            <dd style="margin-bottom: 10px;">
+                <?php echo $this->FormMultiCheckbox($categories).$this->formElementErrors($categories);?>
+            </dd>
+            <?php 
+        }
+        
+        $csrf = $form->get("csrf");
+        
+        echo $this->formHidden($csrf).$this->formElementErrors($csrf);
+        
+        $submit = $form->get("submit");
+        
+        if($submit)
+        {
+            ?>
+            <dd><?php echo $this->formButton($submit).$this->formElementErrors($submit);?></dd>
+            <?php
+        }
+        ?>
+    </dl>
+    <?php if ($this->redirect): ?>
+        <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+    <?php endif ?>
+<?php echo $this->form()->closeTag() ?>
+</div>

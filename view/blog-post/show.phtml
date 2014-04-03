@@ -1,0 +1,69 @@
+<?php
+if($this->post)
+{
+    ?>
+    <ul class="breadcrumb">
+        <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
+        <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
+        <li><a href="<?php echo $this->url("wdgadmin/blog_post_list");?>">Posts</a> <span class="divider">/</span></li>
+        <li class="active">#<?php echo $this->post->getId();?></li>
+    </ul>
+    <div class="pull-left" style='width:60%'>
+        <ul class="nav nav-tabs" id="myTab1" style="margin-bottom:10px">
+            <li class="active"><a>Info</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="info">
+                <div class="wdgadmin-toolbar">
+                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Post" href="<?php echo $this->url("wdgadmin/blog_post_edit", array("id" => $this->post->getId()));?>">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </div>
+                <table class="table table-condensed" >
+                    <tr><th>Id</th><td><?php echo $this->post->getId();?></td></tr>
+                    <tr><th>Title</th><td><?php echo $this->post->getTitle();?></td></tr>
+                    <tr><th>Slug</th><td><?php echo $this->post->getSlug();?></td></tr>
+                    <tr><th>Thumbnail</th><td><?php echo $this->post->getThumbnailHtml()." ".$this->post->getThumbnail();?></td></tr>
+                    <tr><th>Thumbnail Alt</th><td><?php echo $this->post->getThumbnailAlt();?></td></tr>
+                    <tr><th>Author</th><td><?php echo $this->post->getAuthor()->getDisplayName();?></td></tr>
+                    <tr><th>Created</th><td><?php echo $this->post->getCreated()->format("m-d-Y");?></td></tr>
+                    <tr><th>Excerpt</th><td><?php echo $this->post->getExcerpt();?></td></tr>
+                    <tr><th>Body</th><td style="overflow: auto"><?php echo $this->post->getBody();?></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right" style='width:35%;'>
+        <ul class="nav nav-tabs" id="myTab" style="margin-bottom:10px">
+            <li class="active"><a href="#categories">Categories</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="submittals">
+                <div class="wdgadmin-toolbar">
+                    <a class="btn btn-small btn-primary addtooltip-right" 
+                       title="Manage Categories" 
+                       href="<?php echo $this->url("wdgadmin/blog_post_category", array("id" => $this->post->getId()));?>"
+                    >
+                        <i class="icon-list"></i>
+                    </a>
+                </div>
+                <?php
+                $categories = $this->post->getCategories();
+                
+                if(count($categories) > 0)
+                {
+                    foreach ($categories as $category) 
+                    {
+                        echo $category->getName();
+                    }
+                }
+                else echo "No categories";
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+else echo "<div class='alert alert-block alert-error'>No blog post with that id</div>";
+?>
+<div class="clearfix"></div>

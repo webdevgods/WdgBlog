@@ -1,0 +1,34 @@
+<ul class="breadcrumb">
+    <li><a href="<?php echo $this->url("wdgadmin");?>">Dashboard</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url("wdgadmin/blog_home");?>">Blog</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url("wdgadmin/blog_post_list");?>">Posts</a> <span class="divider">/</span></li>
+    <li class="active">Post Edit</li>
+</ul>
+<div>
+<?php echo $this->form()->openTag($this->form) ?>
+    <dl class="zend_form">
+    <?php foreach ($this->form as $element): ?>
+        <?php if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden && !$element instanceof Zend\Form\Element\Csrf): ?>
+            <dt><?php echo $this->formLabel($element);?></dt>
+        <?php endif ?>
+        <?php if ($element instanceof Zend\Form\Element\Button): ?>
+            <dd><?php echo $this->formButton($element).$this->formElementErrors($element);?></dd>
+        <?php elseif ($element instanceof Zend\Form\Element\Select): ?>
+            <dd><?php echo $this->formSelect($element).$this->formElementErrors($element);?></dd>
+        <?php elseif ($element instanceof Zend\Form\Element\Hidden || $element instanceof Zend\Form\Element\Csrf): ?>
+            <?php echo $this->formHidden($element).$this->formElementErrors($element);?>
+        <?php elseif ($element instanceof Zend\Form\Element\Textarea): ?>
+            <dd style="margin-bottom: 10px;"><?php echo $this->formTextarea($element).$this->formElementErrors($element);?></dd>
+        <?php else: ?>
+            <dd><?php echo $this->formInput($element).$this->formElementErrors($element);?></dd>
+        <?php endif ?>
+    <?php endforeach ?>
+    </dl>
+    <?php if ($this->redirect): ?>
+        <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+    <?php endif ?>
+<?php echo $this->form()->closeTag() ?>
+</div>
+<script>
+    CKEDITOR.replace( 'body' );
+</script>

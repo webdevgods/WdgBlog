@@ -17,6 +17,18 @@ class Module implements ServiceProviderInterface
 
     public function getConfig()
     {
+        $config         = array();
+        $configFiles    = array(
+            'module.config.php',
+            'routes.config.php',
+        );
+        
+        foreach ($configFiles as $configFile) 
+        {
+            $config = \Zend\Stdlib\ArrayUtils::merge($config, include __DIR__ . '/config/' . $configFile);
+        }
+
+        return $config;
         return include __DIR__ . '/config/module.config.php';
     }
 
