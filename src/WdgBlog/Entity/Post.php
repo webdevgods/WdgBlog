@@ -4,7 +4,7 @@ namespace WdgBlog\Entity;
 use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection,
-    WdgBase\Entity\EntityAbstract,
+    WdgDoctrine2\Entity\Entity,
     WdgUser\Entity\User as UserEntity;
 
 /**
@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM,
  * )
  * @ORM\Entity(repositoryClass="WdgBlog\Repository\Post")
  */
-class Post extends EntityAbstract
+class Post extends Entity
 {
 
     /**

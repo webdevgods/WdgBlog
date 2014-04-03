@@ -2,7 +2,7 @@
 namespace WdgBlog\Entity;
 
 use Doctrine\ORM\Mapping as ORM, 
-    WdgBase\Entity\EntityAbstract,
+    WdgDoctrine2\Entity\Entity,
     Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM,
  * )
  * @ORM\Entity(repositoryClass="WdgBlog\Repository\Category")
  */
-class Category extends EntityAbstract
+class Category extends Entity
 {
 
     /**
