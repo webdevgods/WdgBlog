@@ -4,10 +4,10 @@ foreach($this->featured_posts as $post)
     echo $post->getThumbnailHtml(" style='width:100px;float:left;clear:left;margin-right:10px;' ");
     echo "<h3 style='margin-top:0;padding-top:0;line-height:20px;'>".$post->getTitle()."</h3>";
     echo "By: <a href='".$this->url(
-                "home/contributor", 
+                "wdg-blog/contributor", 
                 array("id" => $post->getAuthor()->getId())
             )."'>".$post->getAuthor()->getDisplayName()."</a><br />";
     echo $post->getCreated()->format("M j, Y g:i a")."<br /><br />";
-    echo $post->getExcerpt()."<a href='".$this->url("home/blog/post", array("slug" => $post->getSlug()))."'>...more</a>";
+    echo $post->getExcerpt()."<a href='".$this->url("wdg-blog/post", array("slug" => $post->getSlug()))."'>...more</a>";
     echo "<div style='clear:both;'></div><hr />";
 }

@@ -1,7 +1,7 @@
 <?php
 namespace WdgBlog\Form\Blog\Post;
 
-use WdgBase\Form\PostFormAbstract;
+use WdgZf2\Form\PostFormAbstract;
 
 class Category extends PostFormAbstract
 {

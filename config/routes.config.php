@@ -43,7 +43,7 @@ return array(
                     'contributor' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => 'contributor/[:id]',
+                            'route' => '/contributor/[:id]',
                             'defaults' => array(
                                 'controller' => 'WdgBlog\Controller\Contributor',
                                 'action' => 'index'
@@ -62,13 +62,13 @@ return array(
                             'route' => '/blog',
                             'defaults' => array(
                                 'controller' => 'WdgBlog\Controller\BlogAdmin',
-                                'action'     => 'index',
+                                'action'     => 'index'
                             ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
                             'post' => array(
-                                'type' => 'Segment',
+                                'type' => 'Literal',
                                 'options' => array(
                                     'route' => '/post'
                                 ),
@@ -76,7 +76,7 @@ return array(
                                     'show' => array(
                                         'type' => 'Segment',
                                         'options' => array(
-                                            'route' => '[/:id]',
+                                            'route' => '/[:id]',
                                             'defaults' => array(
                                                 'controller' => 'WdgBlog\Controller\BlogAdminPost',
                                                 'action' => 'show'
@@ -95,9 +95,8 @@ return array(
                                                 'page' => '1'
                                             )
                                         ),
-                                        'may_terminate' => true,
-                                        
-                                        'priority' => 100,
+                                        'may_terminate' => true,                                        
+                                        'priority' => 1000,
                                     ),
                                     'add' => array(
                                         'type' => 'Literal',
@@ -109,8 +108,9 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
-                                    'blog_post_delete' => array(
+                                    'delete' => array(
                                         'type' => 'Segment',
                                         'options' => array(
                                             'route' => '/delete[/:id]',
@@ -120,6 +120,7 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
                                     'edit' => array(
                                         'type' => 'Segment',
@@ -130,6 +131,7 @@ return array(
                                                 'action' => 'edit'
                                             )
                                         ),
+                                        'priority' => 1000,
                                         'may_terminate' => true,
                                     ),
                                     'categories' => array(
@@ -141,21 +143,29 @@ return array(
                                                 'action' => 'categories'
                                             )
                                         ),
+                                        'priority' => 1000,
                                         'may_terminate' => true,
                                     ),
                                 ),
                             ),
                             'category' => array(
-                                'type' => 'Segment',
+                                'type' => 'Literal',
                                 'options' => array(
-                                    'route' => '/category[/:id]',
-                                    'defaults' => array(
-                                        'controller' => 'WdgBlog\Controller\BlogAdminCategory',
-                                        'action' => 'show'
-                                    )
+                                    'route' => '/category',
                                 ),
-                                'may_terminate' => true,
                                 'child_routes' => array(
+                                    'show' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '[/:id]',
+                                            'defaults' => array(
+                                                'controller' => 'WdgBlog\Controller\BlogAdminCategory',
+                                                'action' => 'show'
+                                            )
+                                        ),
+                                        'may_terminate' => true,
+                                        'priority' => 10,
+                                    ),
                                     'list' => array(
                                         'type' => 'Literal',
                                         'options' => array(
@@ -166,6 +176,7 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
                                     'add' => array(
                                         'type' => 'Literal',
@@ -177,6 +188,7 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
                                     'delete' => array(
                                         'type' => 'Segment',
@@ -188,6 +200,7 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
                                     'edit' => array(
                                         'type' => 'Segment',
@@ -199,6 +212,7 @@ return array(
                                             )
                                         ),
                                         'may_terminate' => true,
+                                        'priority' => 1000,
                                     ),
                                 )
                             )

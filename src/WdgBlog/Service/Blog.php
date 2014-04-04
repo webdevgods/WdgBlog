@@ -135,7 +135,7 @@ class Blog extends ServiceAbstract
         if(!$form->isValid())throw new FormException("Form values are invalid");
         
         $data   = $form->getInputFilter()->getValues();
-        $User   = $this->getUserService()->get($data["author_id"]);
+        $User   = $this->getUserService()->getUserMapper()->findById($data["author_id"]);
         
         if(!$User)throw new FormException("Form values are invalid. Incorrect User");
         
@@ -171,7 +171,7 @@ class Blog extends ServiceAbstract
         if(!$form->isValid())throw new FormException("Form values are invalid");
         
         $data   = $form->getInputFilter()->getValues();
-        $User   = $this->getUserService()->get($data["author_id"]);
+        $User   = $this->getUserService()->getUserMapper()->findById($data["author_id"]);
         
         if(!$User)throw new FormException("Form values are invalid. Incorrect User");
         
@@ -385,7 +385,7 @@ class Blog extends ServiceAbstract
     {
         if($this->userService === null)
         {
-            $this->userService = $this->getServiceManager()->get("wdguser_service_user");
+            $this->userService = $this->getServiceManager()->get("zfcuseradmin_user_service");
         }
         
         return $this->userService;

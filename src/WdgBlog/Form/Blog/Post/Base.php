@@ -1,20 +1,29 @@
 <?php
 namespace WdgBlog\Form\Blog\Post;
 
-use WdgBase\Form\PostFormAbstract;
+use WdgZf2\Form\PostFormAbstract;
 
 class Base extends PostFormAbstract
 {
-    public function __construct(\WdgUser\Service\User $User)
+    public function __construct(\ZfcUserAdmin\Mapper\UserDoctrine $User)
     {
         parent::__construct();
+        
+        $users = $User->findAll();
+        
+        $options = array();
+        
+        foreach($users as $user)
+        {
+            $options[$user->getId()] = $user->getUserName();
+        }
 
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'author_id',
             'options' => array(
                 'label' => 'Author',
-                'value_options' => $User->getUsersSelectArray()
+                'value_options' => $options
             ),
         ));
         

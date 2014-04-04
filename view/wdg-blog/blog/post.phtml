@@ -4,7 +4,7 @@ if($this->post)
     echo "<h2>".$this->post->getTitle()."</h2>";
     echo "By: <a href='".
             $this->url(
-                "home/contributor", 
+                "wdg-blog/contributor", 
                 array("id" => $this->post->getAuthor()->getId())
             )."'>";
     echo $this->post->getAuthor()->getDisplayName();

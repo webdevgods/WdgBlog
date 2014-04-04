@@ -4,7 +4,7 @@ use WdgBlog\Form;
 return array(
     'factories' => array(
         'wdgblog_post_add_form' => function(\Zend\Form\FormElementManager $sm){
-            $UserService    = $sm->getServiceLocator()->get("wdguser_service_user");
+            $UserService    = $sm->getServiceLocator()->get("zfcuseradmin_mapper");
             $form           = new Form\Blog\Post\Add($UserService);
             
             $form->setInputFilter(new \WdgBlog\Filter\Blog\Post\Add());
@@ -12,14 +12,14 @@ return array(
             return $form;
         },
         'wdgblog_post_edit_form' => function(\Zend\Form\FormElementManager $sm){
-            $UserService    = $sm->getServiceLocator()->get("wdguser_service_user");
+            $UserService    = $sm->getServiceLocator()->get("zfcuseradmin_mapper");
             $form           = new Form\Blog\Post\Edit($UserService);
             
             $form->setInputFilter(new \WdgBlog\Filter\Blog\Post\Edit());
 
             return $form;
         },
-        'wdgblog_category_add_form' => function(\Zend\Form\FormElementManager $sm){
+        'wdgblog_category_add_form' => function(){
             
             $form = new Form\Blog\Category\Add();
             
@@ -27,7 +27,7 @@ return array(
 
             return $form;
         },
-        'wdgblog_category_edit_form' => function(\Zend\Form\FormElementManager $sm){
+        'wdgblog_category_edit_form' => function(){
             $form = new Form\Blog\Category\Edit();
             
             $form->setInputFilter(new \WdgBlog\Filter\Blog\Category\Edit());

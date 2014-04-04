@@ -1,6 +1,7 @@
 <?php
 namespace WdgBlog\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class BlogAdminCategoryController extends AbstractActionController
@@ -9,8 +10,6 @@ class BlogAdminCategoryController extends AbstractActionController
     
     public function listAction()
     {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
         $page       = (int) $this->params()->fromRoute('page', 0);
         $paginator  = $this->getBlogService()->getCategoriesPaginator($page, 10);
         
@@ -22,8 +21,6 @@ class BlogAdminCategoryController extends AbstractActionController
     
     public function showAction()
     {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
         $id = (int) $this->params()->fromRoute('id', 0);
         
         return new ViewModel(array("category" => $this->getBlogService()->getCategoryById($id)));
@@ -31,8 +28,6 @@ class BlogAdminCategoryController extends AbstractActionController
     
     public function addAction()
     {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
         $service    = $this->getBlogService();
         $form       = $service->getAddCategoryForm($this->getEvent()->getRouteMatch()->getParam("id"));
         $request    = $this->getRequest();
@@ -66,8 +61,6 @@ class BlogAdminCategoryController extends AbstractActionController
     
     public function editAction()
     {
-        if(!$this->isUserAuthorized())return $this->redirectToLogin();
-        
         $service    = $this->getBlogService();
         $form       = $service->getEditCategoryForm($this->getEvent()->getRouteMatch()->getParam("id"));
         $request    = $this->getRequest();
