@@ -23,6 +23,11 @@
     <?php endif ?>
 <?php echo $this->form()->closeTag() ?>
 </div>
-<script>
+<?php
+$script = $this->inlineScript();
+$script->appendScript(<<<'EOT'
+    
     CKEDITOR.replace( 'body' );
-</script>
+    
+EOT
+);

@@ -18,9 +18,9 @@ class BlogAdminCategoryController extends AbstractActionController
         if($paginator->count() > 0 && $paginator->count() < $page)
             $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/list");
         
-        return ViewModel(array(
-            'posts' => $paginator,
-            'postlistElements' => $this->getOptions()->getPostListElements()
+        return new ViewModel(array(
+            'categories' => $paginator,
+            'categorylistElements' => $this->getOptions()->getPostListElements()
         ));
     }
     
@@ -106,7 +106,7 @@ class BlogAdminCategoryController extends AbstractActionController
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceLocator()->get('zfcuseradmin_module_options'));
+            $this->setOptions($this->getServiceLocator()->get('wdgblog_module_options'));
         }
         return $this->options;
     }

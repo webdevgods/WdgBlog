@@ -85,7 +85,7 @@ class BlogAdminPostController extends AbstractActionController
         $this->getServiceLocator()
             ->get('viewhelpermanager')
             ->get('HeadScript')
-            ->prependFile('/ckeditor/ckeditor.js');
+            ->prependFile('http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.0.1/ckeditor.js');
         
         $service    = $this->getBlogService();
         $form       = $service->getEditPostForm($this->getEvent()->getRouteMatch()->getParam("id"));

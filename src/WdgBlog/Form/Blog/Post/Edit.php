@@ -3,7 +3,7 @@ namespace WdgBlog\Form\Blog\Post;
 
 class Edit extends Base
 {
-    public function __construct(\WdgUser\Service\User $User)
+    public function __construct(\ZfcUserAdmin\Mapper\UserDoctrine $User)
     {
         parent::__construct($User);
         
