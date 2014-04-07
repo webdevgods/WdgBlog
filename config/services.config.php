@@ -1,4 +1,6 @@
 <?php
+namespace WdgBlog;
+
 return array(
     'aliases' => array(
         'wdgblog_doctrine_em' => 'doctrine.entitymanager.orm_default',
@@ -7,6 +9,10 @@ return array(
         'wdgblog_service_blog' => 'WdgBlog\Service\Blog'
     ),
     'factories' => array(
+        'wdgblog_module_options' => function ($sm) {
+            $config = $sm->get('Config');
+            return new Options\ModuleOptions(isset($config['wdgblog']) ? $config['wdgblog'] : array());
+        },
         'wdgblog_repos_post' => function ($sm) {
             return $sm->get('wdgblog_doctrine_em')->getRepository("WdgBlog\Entity\Post");
         },
