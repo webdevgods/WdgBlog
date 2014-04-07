@@ -1,11 +1,13 @@
 <?php
 namespace WdgBlog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController,
+    Zend\View\Model\ViewModel,
+    WdgBlog\Options\ModuleOptions;
 
 class BlogAdminCategoryController extends AbstractActionController
 {
+    protected $options;
     protected $blogService;
     
     public function listAction()
@@ -13,10 +15,13 @@ class BlogAdminCategoryController extends AbstractActionController
         $page       = (int) $this->params()->fromRoute('page', 0);
         $paginator  = $this->getBlogService()->getCategoriesPaginator($page, 10);
         
-        if($paginator->count() >0 && $paginator->count() < $page)
+        if($paginator->count() > 0 && $paginator->count() < $page)
             $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/list");
         
-        return new ViewModel(array("paginator" => $paginator));
+        return ViewModel(array(
+            'posts' => $paginator,
+            'postlistElements' => $this->getOptions()->getPostListElements()
+        ));
     }
     
     public function showAction()
@@ -90,6 +95,20 @@ class BlogAdminCategoryController extends AbstractActionController
         }
         
         return new ViewModel(array("form" => $form));
+    }
+    
+    public function setOptions(ModuleOptions $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        if (!$this->options instanceof ModuleOptions) {
+            $this->setOptions($this->getServiceLocator()->get('zfcuseradmin_module_options'));
+        }
+        return $this->options;
     }
     
     /**

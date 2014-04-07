@@ -1,57 +1,79 @@
 <?php
-/* @var $paginator \Zend\Paginator\Paginator */
-$paginator = $this->paginator;
+$this->headTitle()->append("Blog Posts");
+
+$getters = array();
+
+foreach ($this->postlistElements as $element) {
+    $parts = explode('_', $element);
+    array_walk($parts, function (&$val) {
+        $val = ucfirst($val);
+    });
+    $getters[$element] = 'get' . implode('', $parts);
+}
 ?>
-<div class="wdgadmin-toolbar">
-    <a title="Add Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/add");?>" class="btn btn-small btn-primary addtooltip-left">
-        <i class="icon-plus"></i>
-    </a>
+
+<h1><?php echo $this->translate('Blog Posts') ?></h1>
+
+<div class="navbar filter-bar">
+    <div class="navbar-inner">
+        <div class="pull-right">
+            <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/post/add') ?>" class="btn btn-primary">
+                <?php echo $this->translate('Add New Post') ?>
+            </a>
+        </div>
+    </div>
 </div>
+
 <table class="table">
-    <tr>
-        <th style="width:40px;">&nbsp</th>
-        <th style="width:40px;">Id</th>
-        <th>Title</th>
-        <th>Slug</th>
-        <th>Author</th>
-        <th>Creation Date</th>
-        <th style="width:40px;">&nbsp</th>
-    </tr>
+    <thead>
+        <tr>    
+            <th style="width:40px;">&nbsp</th>
+            <?php foreach ($this->postlistElements as $name => $element): ?>
+                <th><?php echo $this->escapeHtml($name ? : $element); ?></th>
+            <?php endforeach; ?>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
     <?php 
-    foreach($paginator as $Post)
+    foreach($this->posts as $post)
     {
         ?>
         <tr>
             <td>
-                <a title="Show Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/show", array("id" => $Post->getId()));?>" class="btn btn-mini addtooltip-left">
-                    <i class="icon-eye-open"></i>
+                <a title="Show Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/show", array("id" => $post->getId()));?>">
+                    <?php echo $post->getId();?>
                 </a>
             </td>
-            <td><?php echo $Post->getId();?></td>
-            <td><?php echo $Post->getTitle();?></td>
-            <td><?php echo $Post->getSlug();?></td>
-            <td><?php echo $Post->getAuthor()->getDisplayName();?></td>
-            <td><?php echo $Post->getCreated()->format("m-d-Y");?></td>
-            <td>
-                <a title="Delete Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/delete", array("id" => $Post->getId()));?>" class="btn btn-danger btn-mini addtooltip-right">
-                    <i class="icon-trash"></i>
+            
+            <?php 
+            foreach ($this->postlistElements as $element): ?>
+                <td class="cell cell-<?php echo $this->escapeHtml($element) ?>">
+                    <?php $parts = explode('_', $element); ?>
+                    <?php echo call_user_func(array($post, $getters[$element])); ?>
+                </td>
+            <?php endforeach; ?>
+                
+            <td class="cell cell-ctrls">
+                <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/post/edit', array('id' => $post->getId())); ?>">
+                    <?php echo $this->translate('Edit') ?>
+                </a>
+                |
+                <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/post/delete', array('id' => $post->getId())); ?>"
+                   onclick="return confirm('<?php echo $this->translate('Really delete post?') ?>')">
+                    <?php echo $this->translate('Delete') ?>
                 </a>
             </td>
         </tr>
         <?php
     }
     ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="<?php echo count($this->postlistElements) + 2; ?>">
+                <?php echo $this->paginationControl($this->posts, 'Sliding', 'partial/paginator-item-control.phtml'); ?>
+            </td>
+        </tr>
+    </tfoot>
 </table>
-<?php
- echo $this->paginationControl(
-     // the paginator object
-     $paginator,
-     // the scrolling style
-     'sliding',
-     // the partial to use to render the control
-    'partial/paginator-item-control.phtml',
-     // the route to link to when a user clicks a control link
-     array(
-         'route' => 'zfcadmin/wdg-blog-admin/post/list'
-     )
- );

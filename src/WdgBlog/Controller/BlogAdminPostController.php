@@ -1,11 +1,13 @@
 <?php
 namespace WdgBlog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController,
+    Zend\View\Model\ViewModel,
+    WdgBlog\Options\ModuleOptions;
 
 class BlogAdminPostController extends AbstractActionController
 {
+    protected $options;
     protected $blogService;
     
     public function listAction()
@@ -16,12 +18,26 @@ class BlogAdminPostController extends AbstractActionController
         if($paginator->count() >0 && $paginator->count() < $page)
             $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/list");
         
-        return new ViewModel(array("paginator" => $paginator));
+        return new ViewModel(array(
+            'posts' => $paginator,
+            'postlistElements' => $this->getOptions()->getPostListElements()
+        ));
     }
     
     public function showAction()
     {        
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id     = (int) $this->params()->fromRoute('id', 0);
+        $post   = $this->getBlogService()->getPostById($id);
+        
+        if(!$post)
+        {
+            $this->flashMessenger()
+                ->addErrorMessage(
+                    $this->getTranslator()->translate('No blog post with that id')
+                );
+            
+            $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/list");
+        }
         
         return new ViewModel(array("post" => $this->getBlogService()->getPostById($id)));
     }
@@ -137,6 +153,20 @@ class BlogAdminPostController extends AbstractActionController
         return new ViewModel(array("form" => $form, "post" => $Post));
     }
     
+    public function setOptions(ModuleOptions $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        if (!$this->options instanceof ModuleOptions) {
+            $this->setOptions($this->getServiceLocator()->get('wdgblog_module_options'));
+        }
+        return $this->options;
+    }
+    
     /**
      * getBlogService
      *
@@ -149,5 +179,10 @@ class BlogAdminPostController extends AbstractActionController
             $this->blogService = $this->getServiceLocator()->get('wdgblog_service_blog');
         }
         return $this->blogService;
+    }
+    
+    public function getTranslator()
+    {
+        return $this->getServiceLocator()->get('translator');
     }
 }

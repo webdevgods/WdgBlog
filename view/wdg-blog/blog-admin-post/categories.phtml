@@ -1,18 +1,25 @@
-<?php
-/* @var $form Zend\Form\Form */
+<?php 
+
 $form = $this->form;
+
+$this->headTitle()->append("Blog Post Categories"); 
+
 ?>
-<div>
-    <?php
-        echo $this->form()->openTag($this->form);
-        echo $this->post->getTitle()." - manage categories";
+
+<h1><?php echo $this->translate('Blog Post Categories') ?></h1>
+
+<h3>"<?php echo $this->post->getTitle();?>"</h3>
+
+<?php
+
+echo $this->form()->openTag($this->form);
     ?>
     <dl class="zend_form">
         <?php 
         $id = $form->get("id");
-        
+
         echo $this->formHidden($id).$this->formElementErrors($id);
-        
+
         $categories = $form->get("categories");
         ?>
         <dt><?php echo $this->formLabel($categories);?></dt>
@@ -23,17 +30,21 @@ $form = $this->form;
         {
             ?>
             <dd style="margin-bottom: 10px;">
-                <?php echo $this->FormMultiCheckbox($categories).$this->formElementErrors($categories);?>
+                <?php 
+                $categories->setAttribute("style", "margin-right:8px;");
+                
+                echo $this->FormMultiCheckbox($categories).$this->formElementErrors($categories);
+                ?>
             </dd>
             <?php 
         }
-        
+
         $csrf = $form->get("csrf");
-        
+
         echo $this->formHidden($csrf).$this->formElementErrors($csrf);
-        
+
         $submit = $form->get("submit");
-        
+
         if($submit)
         {
             ?>
@@ -42,8 +53,9 @@ $form = $this->form;
         }
         ?>
     </dl>
+
     <?php if ($this->redirect): ?>
         <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
     <?php endif ?>
+        
 <?php echo $this->form()->closeTag() ?>
-</div>

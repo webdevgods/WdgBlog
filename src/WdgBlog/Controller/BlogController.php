@@ -9,7 +9,7 @@ class BlogController extends AbstractActionController
     public function indexAction()
     {
         /* @var $blog_service \WdgBlog\Service\Blog */
-        $blog_service = $this->getServiceLocator()->get('wdgblog_service_blog');
+        $blog_service   = $this->getServiceLocator()->get('wdgblog_service_blog');
         $featured_posts = $blog_service->getLatestPostsPaginator(1, 5);
         
         return new ViewModel(array("featured_posts" => $featured_posts));

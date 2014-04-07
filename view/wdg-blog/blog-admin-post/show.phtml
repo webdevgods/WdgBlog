@@ -1,63 +1,89 @@
-<?php
-if($this->post)
-{
-    ?>
-    <div class="pull-left" style='width:60%'>
-        <ul class="nav nav-tabs" id="myTab1" style="margin-bottom:10px">
-            <li class="active"><a>Info</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="info">
-                <div class="wdgadmin-toolbar">
-                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Post" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/edit", array("id" => $this->post->getId()));?>">
-                        <i class="icon-pencil"></i>
+<?php $this->headTitle()->append("Blog Post"); ?>
+
+<h1><?php echo $this->translate('Blog Post') ?></h1>
+
+<ul class="nav nav-tabs" id="blogPostTabs" style="margin-bottom:10px">
+    <li class="active"><a href="#tab_info">Info</a></li>
+    <li><a href="#tab_categories">Categories</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_info">
+        <div class="navbar filter-bar">
+            <div class="navbar-inner">
+                <div class="pull-right">
+                    <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/post/edit', array('id' => $this->post->getId())) ?>" class="btn btn-primary">
+                        <?php echo $this->translate('Edit Post') ?>
                     </a>
                 </div>
-                <table class="table table-condensed" >
-                    <tr><th>Id</th><td><?php echo $this->post->getId();?></td></tr>
-                    <tr><th>Title</th><td><?php echo $this->post->getTitle();?></td></tr>
-                    <tr><th>Slug</th><td><?php echo $this->post->getSlug();?></td></tr>
-                    <tr><th>Thumbnail</th><td><?php echo $this->post->getThumbnailHtml()." ".$this->post->getThumbnail();?></td></tr>
-                    <tr><th>Thumbnail Alt</th><td><?php echo $this->post->getThumbnailAlt();?></td></tr>
-                    <tr><th>Author</th><td><?php echo $this->post->getAuthor()->getDisplayName();?></td></tr>
-                    <tr><th>Created</th><td><?php echo $this->post->getCreated()->format("m-d-Y");?></td></tr>
-                    <tr><th>Excerpt</th><td><?php echo $this->post->getExcerpt();?></td></tr>
-                    <tr><th>Body</th><td style="overflow: auto"><?php echo $this->post->getBody();?></td></tr>
-                </table>
             </div>
         </div>
+        <?php 
+        $values = array(
+            "Id" => $this->post->getId(),
+            "Title" => $this->post->getTitle(),
+            "Slug" => $this->post->getSlug(),
+            "Thumbnail" => $this->post->getThumbnailHtml()." ".$this->post->getThumbnail(),
+            "Thumbnail Alt" => $this->post->getThumbnailAlt(),
+            "Author" => $this->post->getAuthor()->getDisplayName(),
+            "Created" => $this->post->getCreated()->format("m-d-Y"),
+            "Excerpt" => $this->post->getExcerpt(),
+            "Body" => $this->post->getBody()
+        );
+
+        $count  = count($values);
+        $i      = 0;
+        
+        foreach($values as $label => $value)
+        {
+            $i++;
+            ?>
+            <label class="text-info"><?php echo $label;?>:</label>
+            <?php 
+            echo $value;
+            
+            if($i !== $count)
+                echo "<hr />";
+        }
+        ?>
     </div>
-    <div class="pull-right" style='width:35%;'>
-        <ul class="nav nav-tabs" id="myTab" style="margin-bottom:10px">
-            <li class="active"><a href="#categories">Categories</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="submittals">
-                <div class="wdgadmin-toolbar">
-                    <a class="btn btn-small btn-primary addtooltip-right" 
-                       title="Manage Categories" 
-                       href="<?php echo $this->url("zfcadmin/wdg-blog-admin/post/categories", array("id" => $this->post->getId()));?>"
-                    >
-                        <i class="icon-list"></i>
+    <div class="tab-pane" id="tab_categories">
+        <div class="navbar filter-bar">
+            <div class="navbar-inner">
+                <div class="pull-right">
+                    <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/post/categories', array('id' => $this->post->getId())) ?>" class="btn btn-primary">
+                        <?php echo $this->translate('Manage Categories') ?>
                     </a>
                 </div>
-                <?php
-                $categories = $this->post->getCategories();
-                
-                if(count($categories) > 0)
+            </div>
+        </div>
+        <div>
+            <ul>
+            <?php
+            $categories = $this->post->getCategories();
+
+            if(count($categories) > 0)
+            {
+                foreach ($categories as $category) 
                 {
-                    foreach ($categories as $category) 
-                    {
-                        echo $category->getName();
-                    }
+                    echo "<li>".$category->getName()."</li>";
                 }
-                else echo "No categories";
-                ?>
-            </div>
+            }
+            else echo "<li>No categories</li>";
+            ?>
+            </ul>
         </div>
     </div>
-    <?php
-}
-else echo "<div class='alert alert-block alert-error'>No blog post with that id</div>";
-?>
+</div>
+
 <div class="clearfix"></div>
+<?php
+$script = $this->inlineScript();
+$script->appendScript(<<<'EOT'
+    
+    $("#blogPostTabs a").click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+    });
+    
+EOT
+);
