@@ -118,6 +118,24 @@ class BlogAdminPostController extends AbstractActionController
         return new ViewModel(array("form" => $form));
     }
     
+    public function deleteAction()
+    {
+        $id = $this->getEvent()->getRouteMatch()->getParam("id");
+        
+        try 
+        {
+            $this->getBlogService()->deletePost($id);
+            
+            $this->flashMessenger()->addSuccessMessage("Post Deleted");
+        } 
+        catch(\Exception $exc) 
+        {
+            $this->flashMessenger()->addErrorMessage($exc->getMessage());
+        }
+        
+        return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/post/list");
+    }
+    
     public function categoriesAction()
     {        
         $service    = $this->getBlogService();

@@ -228,6 +228,26 @@ class Blog extends ServiceAbstract
     }
     
     /**
+     * @param int $id
+     * @return \WdgBlog\Service\Blog
+     * @throws \Exception
+     */
+    public function deletePost($id)
+    {
+        $post = $this->getPostById($id);
+        
+        if(!$post)
+            throw new \Exception("Could not delete post. That post does not exist.");
+        
+        $em = $this->getEntityManager();
+        
+        $em->remove($post);
+        $em->flush();
+        
+        return $this;
+    }
+    
+    /**
      * @param array $array
      * @return CategoryEntity
      * @throws FormException
