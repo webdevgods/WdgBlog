@@ -43,7 +43,11 @@ echo $this->form()->openTag($this->form);
 
         echo $this->formHidden($csrf).$this->formElementErrors($csrf);
 
-        $submit = $form->get("submit");
+        try {
+            $submit = $form->get("submit");
+        } catch (\Exception $exc) {
+            $submit = null;
+        } 
 
         if($submit)
         {
