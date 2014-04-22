@@ -303,6 +303,26 @@ class Blog extends ServiceAbstract
     }
     
     /**
+     * @param int $id
+     * @return \WdgBlog\Service\Blog
+     * @throws \Exception
+     */
+    public function deleteCategory($id)
+    {
+        $category = $this->getCategoryById($id);
+        
+        if(!$category)
+            throw new \Exception("Could not delete category. That category does not exist.");
+        
+        $em = $this->getEntityManager();
+        
+        $em->remove($category);
+        $em->flush();
+        
+        return $this;
+    }
+    
+    /**
      * @return Form
      */
     public function getAddPostForm()

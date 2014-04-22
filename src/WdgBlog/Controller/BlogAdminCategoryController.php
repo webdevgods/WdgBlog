@@ -97,6 +97,24 @@ class BlogAdminCategoryController extends AbstractActionController
         return new ViewModel(array("form" => $form));
     }
     
+    public function deleteAction()
+    {
+        $id = $this->getEvent()->getRouteMatch()->getParam("id");
+        
+        try 
+        {
+            $this->getBlogService()->deleteCategory($id);
+            
+            $this->flashMessenger()->addSuccessMessage("Category Deleted");
+        } 
+        catch(\Exception $exc) 
+        {
+            $this->flashMessenger()->addErrorMessage($exc->getMessage());
+        }
+        
+        return $this->redirect()->toRoute("zfcadmin/wdg-blog-admin/category/list");
+    }
+    
     public function setOptions(ModuleOptions $options)
     {
         $this->options = $options;
