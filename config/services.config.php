@@ -2,13 +2,13 @@
 namespace WdgBlog;
 
 return array(
-    'aliases' => array(
-        'wdgblog_doctrine_em' => 'doctrine.entitymanager.orm_default',
-    ),
     'invokables' => array(
         'wdgblog_service_blog' => 'WdgBlog\Service\Blog'
     ),
     'factories' => array(
+        'wdgblog_doctrine_em' => function ($sm) {
+            return $sm->get('doctrine.entitymanager.orm_default');
+        },
         'wdgblog_module_options' => function ($sm) {
             $config = $sm->get('Config');
             return new Options\ModuleOptions(isset($config['wdgblog']) ? $config['wdgblog'] : array());
