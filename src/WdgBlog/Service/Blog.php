@@ -148,15 +148,45 @@ class Blog extends ServiceAbstract
         
         $Post   = new PostEntity();
         
+        $em->beginTransaction();
+        
+        $file = null;
+        
+        if(isset($data["thumbnail"]) && is_array($data["thumbnail"]) )
+        {
+            $tags = array();
+            
+            if($this->getOptions()->getThumbnailImageTag())
+            {
+                $tags[] = $this->getOptions()->getThumbnailImageTag();
+            }
+            
+            /* @var $fileBank \FileBank\Manager */
+            $fileBank = $this->getServiceManager()->get('FileBank');
+
+            /* @var $file \FileBank\Entity\File */
+            $file = $fileBank->save($data["thumbnail"]["tmp_name"], $tags);
+            
+            if(isset($data["thumbnail_name"]) && strlen($data["thumbnail_name"]) > 0)
+                $file->setName($data["thumbnail_name"]);
+        }
+        
         $Post->setTitle($data["title"])
             ->setSlug($data["slug"])
-            ->setThumbnail($data["thumbnail"])
-            ->setThumbnailAlt($data["thumbnail_alt"])
             ->setExcerpt($data["excerpt"])
             ->setBody($data["body"])
             ->setAuthor($User);
         
+        if($file != null)
+        {
+            $Post->setThumbnail($file);
+        
+            $em->persist($file);
+        }
+        
         $em->persist($Post);  
+        
+        $em->commit(); 
               
         $em->flush();
         

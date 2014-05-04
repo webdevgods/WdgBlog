@@ -2,6 +2,9 @@
 $post       = $this->post;
 $attributes = isset($this->attributes) && is_array($this->attributes) ? $this->attributes : array();
 
+if(!$post->getThumbnail())
+    return "";
+
 if(!isset($attributes["alt"]))$attributes["alt"] = $post->getThumbnail()->getName();
 if(!isset($attributes["title"]))$attributes["title"] = $post->getThumbnail()->getName();
 

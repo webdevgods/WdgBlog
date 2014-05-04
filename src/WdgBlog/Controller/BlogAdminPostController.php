@@ -59,7 +59,12 @@ class BlogAdminPostController extends AbstractActionController
             
             try 
             {
-                $Post = $service->addPostByArray($post->toArray());
+                $data = array_merge_recursive(
+                    $post->toArray(),          
+                    $this->getRequest()->getFiles()->toArray()
+                );
+                
+                $Post = $service->addPostByArray($data);
                 
                 $this->flashMessenger()->addSuccessMessage("Added Post");
 

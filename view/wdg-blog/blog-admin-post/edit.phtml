@@ -7,6 +7,8 @@
         <?php endif ?>
         <?php if ($element instanceof Zend\Form\Element\Button): ?>
             <dd><?php echo $this->formButton($element).$this->formElementErrors($element);?></dd>
+        <?php elseif ($element instanceof Zend\Form\Element\File): ?>
+            <dd><?php echo $this->formFile($element).$this->formElementErrors($element);?></dd>
         <?php elseif ($element instanceof Zend\Form\Element\Select): ?>
             <dd><?php echo $this->formSelect($element).$this->formElementErrors($element);?></dd>
         <?php elseif ($element instanceof Zend\Form\Element\Hidden || $element instanceof Zend\Form\Element\Csrf): ?>
