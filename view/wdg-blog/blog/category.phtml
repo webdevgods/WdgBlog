@@ -3,7 +3,15 @@ echo "<h1>".$this->category->getName()."</h1>";
 
 foreach($this->paginator as $post)
 {
-    echo $post->getThumbnailHtml(" style='width:100px;float:left;clear:left;margin-right:10px;' ");
+    echo $this->partial(
+            "wdg-blog/partial/post-thumbnail", 
+            array(
+                "post" => $post,
+                "attributes" => array(
+                    "style" => "width:100px;float:left;clear:left;margin-right:10px;"
+                )
+            )
+        );
     echo "<h3 style='margin-top:0;padding-top:0;line-height:20px;'>".$post->getTitle()."</h3>";
     echo "By: <a href='".$this->url(
                 "wdg-blog/contributor", 
