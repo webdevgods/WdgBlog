@@ -1,0 +1,21 @@
+<?php
+$post       = $this->post;
+$attributes = isset($this->attributes) && is_array($this->attributes) ? $this->attributes : array();
+
+if(!isset($attributes["alt"]))$attributes["alt"] = $post->getThumbnail()->getName();
+if(!isset($attributes["title"]))$attributes["title"] = $post->getThumbnail()->getName();
+
+$attributes_string = "";
+
+foreach ($attributes as $key => $value) {
+    $attributes_string .= ' '.$key.'="'.htmlspecialchars($value).'" '; 
+}
+
+if($post->getThumbnail()):
+    ?>
+    <img 
+        src="<?php echo $this->getFileById($post->getThumbnail()->getId())->getUrl();?>" 
+        <?php echo $attributes_string;?>
+        />
+<?php
+endif;

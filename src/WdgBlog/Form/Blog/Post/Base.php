@@ -9,6 +9,8 @@ class Base extends PostFormAbstract
     {
         parent::__construct();
         
+        $this->setAttribute('enctype','multipart/form-data');
+        
         $users = $User->findAll();
         
         $options = array();
@@ -42,16 +44,17 @@ class Base extends PostFormAbstract
         ));
         
         $this->add(array(
+            'type' => 'file',
             'name' => 'thumbnail',
             'options' => array(
-                'label' => 'Thumbnail Url',
+                'label' => 'Thumbnail',
             ),
         ));
         
         $this->add(array(
-            'name' => 'thumbnail_alt',
+            'name' => 'thumbnail_name',
             'options' => array(
-                'label' => 'Thumbnail Alt',
+                'label' => 'Thumbnail Name',
             ),
         ));
         

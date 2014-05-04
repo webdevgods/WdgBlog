@@ -1,5 +1,8 @@
 <?php
 return array(
+    'wdgblog' => array(
+        'thumbnailImageTag' => 'blog-thumbnail'
+    ),
     'doctrine' => array(
         'driver' => array(
             'WdgBlog_driver' => array(

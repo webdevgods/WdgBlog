@@ -1,0 +1,33 @@
+<?php
+$post = $this->post;
+
+if($post->getThumbnail()):
+    ?>
+    <ul>
+        <li>
+            <?php echo $this->partial(
+                    "wdg-blog/partial/post-thumbnail", 
+                    array(
+                        "post" => $this->post,
+                        "attributes" => array(
+                            "style" => "max-width: 150px;max-height: 85px;",
+                            "class" => "img-rounded"
+                        )
+                    )
+                    );?>
+        </li>
+        <li>
+            Name: <?php echo $this->post->getThumbnail()->getName();?>
+        </li>
+        <li>
+            Url: <?php echo $this->post->getThumbnail()->getUrl();?>
+        </li>
+        <li>
+            Type: <?php echo $this->post->getThumbnail()->getMimeType();?>
+        </li>
+        <li>
+            Size: <?php echo $this->post->getThumbnail()->getSize();?>
+        </li>
+    </ul>
+<?php
+endif;

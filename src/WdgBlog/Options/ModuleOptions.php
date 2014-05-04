@@ -16,6 +16,11 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
      * Value = entity property(expecting a 'getProperty())
      */
     protected $postListElements = array('Title' => 'title', 'Slug' => 'slug');
+    
+    /**
+     * @var Filebank tag for blog thumbnail specific images
+     */
+    protected $thumbnailImageTag = "";
 
     public function setPostListElements(array $listElements)
     {
@@ -25,5 +30,26 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
     public function getPostListElements()
     {
         return $this->postListElements;
+    }
+    
+    /**
+     * This is the name of the tag to put in the filebank for all of the
+     * thumbnail images so they can be filtered later
+     * 
+     * @param string $thumbnailImageTag
+     */
+    public function setThumbnailImageTag($thumbnailImageTag)
+    {
+        $this->thumbnailImageTag = $thumbnailImageTag;
+    }
+    
+    /**
+     * Filebank tag for blog thumbnail specific images
+     * 
+     * @return type
+     */
+    public function getThumbnailImageTag()
+    {
+        return $this->thumbnailImageTag;
     }
 }

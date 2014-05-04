@@ -63,18 +63,10 @@ class Post extends Entity
     protected $slug;
     
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="FileBank\Entity\File")
+     * @var \FileBank\Entity\File
      */
-    protected $thumbnail = "";
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $thumbnail_alt = "";
+    protected $thumbnail;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -214,13 +206,13 @@ class Post extends Entity
     /**
      * Set thumbnail
      *
-     * @param string $thumbnail
+     * @param \FileBank\Entity\File $thumbnail
      *
      * @return Post
      */
-    public function setThumbnail($thumbnail)
+    public function setThumbnail(\FileBank\Entity\File $thumbnail)
     {
-        $this->thumbnail = (string)$thumbnail;
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
@@ -237,35 +229,13 @@ class Post extends Entity
     
     public function getThumbnailHtml($attributes = "style='width:100px'")
     {
-        return "<img src='".htmlspecialchars($this->getThumbnail()).
-                "' $attributes alt='".htmlspecialchars($this->getThumbnailAlt())."' ".
-                " title='".htmlspecialchars($this->getThumbnailAlt())."' />";
+        if($this->getThumbnail())
+            return "<img src='".htmlspecialchars($this->getThumbnail()->getUrl()).
+                    "' $attributes alt='".htmlspecialchars($this->getThumbnail()->getName())."' ".
+                    " title='".htmlspecialchars($this->getThumbnail()->getName())."' />";
+        
+        return "";
     }
-    
-    /**
-     * Set thumbnail alt
-     *
-     * @param string $thumbnail_alt
-     *
-     * @return Post
-     */
-    public function setThumbnailAlt($thumbnail_alt)
-    {
-        $this->thumbnail_alt = (string)$thumbnail_alt;
-
-        return $this;
-    }
-
-    /**
-     * Get thumbnail alt
-     *
-     * @return string
-     */
-    public function getThumbnailAlt()
-    {
-        return $this->thumbnail_alt;
-    }
-
 
     /**
      * Add categories

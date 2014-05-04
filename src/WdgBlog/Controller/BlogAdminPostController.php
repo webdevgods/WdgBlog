@@ -97,7 +97,12 @@ class BlogAdminPostController extends AbstractActionController
             
             try 
             {
-                $Post = $service->EditPostByArray($post->toArray());
+                $data = array_merge_recursive(
+                    $post->toArray(),          
+                    $this->getRequest()->getFiles()->toArray()
+                );
+                
+                $Post = $service->EditPostByArray($data);
                 
                 $this->flashMessenger()->addSuccessMessage("Edited Post");
 

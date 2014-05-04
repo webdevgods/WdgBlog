@@ -8,7 +8,8 @@ use Zend\Form\Form,
     Zend\Paginator\Paginator as ZendPaginator,
     WdgBlog\Entity\Post as PostEntity,
     WdgBlog\Entity\Category as CategoryEntity,
-    WdgBlog\Exception\Service\Blog\FormException as FormException;
+    WdgBlog\Exception\Service\Blog\FormException as FormException,
+    WdgBlog\Options\ModuleOptionsInterface;
 
 class Blog extends ServiceAbstract
 {
@@ -32,6 +33,12 @@ class Blog extends ServiceAbstract
      */
     protected $userService;
     
+    /**
+     * @var \WdgBlog\Options\ModuleOptionsInterface
+     */
+    protected $options;
+
+
     /**
      * @param string $slug
      * @return PostEntity
@@ -177,15 +184,45 @@ class Blog extends ServiceAbstract
         
         $Post = $this->getPostById($data["id"]);
         
+        $em->beginTransaction();
+        
+        $file = null;
+        
+        if(isset($data["thumbnail"]) && is_array($data["thumbnail"]) )
+        {
+            $tags = array();
+            
+            if($this->getOptions()->getThumbnailImageTag())
+            {
+                $tags[] = $this->getOptions()->getThumbnailImageTag();
+            }
+            
+            /* @var $fileBank \FileBank\Manager */
+            $fileBank = $this->getServiceManager()->get('FileBank');
+
+            /* @var $file \FileBank\Entity\File */
+            $file = $fileBank->save($data["thumbnail"]["tmp_name"], $tags);
+            
+            if(isset($data["thumbnail_name"]) && strlen($data["thumbnail_name"]) > 0)
+                $file->setName($data["thumbnail_name"]);
+        }
+        
         $Post->setTitle($data["title"])
             ->setSlug($data["slug"])
-            ->setThumbnail($data["thumbnail"])
-            ->setThumbnailAlt($data["thumbnail_alt"])
             ->setExcerpt($data["excerpt"])
             ->setBody($data["body"])
             ->setAuthor($User);
         
+        if($file != null)
+        {
+            $Post->setThumbnail($file);
+        
+            $em->persist($file);
+        }
+        
         $em->persist($Post);  
+        
+        $em->commit();
               
         $em->flush();
         
@@ -442,5 +479,25 @@ class Blog extends ServiceAbstract
         }
         
         return $this->entityManager;
+    }
+    
+    /**
+     * @param \WdgBlog\Service\ModuleOptionsInterface $options
+     */
+    public function setOptions( ModuleOptionsInterface $options )
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return \WdgBlog\Options\ModuleOptionsInterface
+     */
+    public function getOptions()
+    {
+        if (!$this->options instanceof ModuleOptionsInterface) {
+            $this->setOptions($this->getServiceManager()->get('wdgblog_module_options'));
+        }
+        
+        return $this->options;
     }
 }

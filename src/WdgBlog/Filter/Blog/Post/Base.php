@@ -72,14 +72,10 @@ class Base extends InputFilter
         $this->add(array(
             'name' => 'thumbnail',
             'required' => false,
-            'filters' => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            )
         ));
         
         $this->add(array(
-            'name' => 'thumbnail_alt',
+            'name' => 'thumbnail_name',
             'required' => false,
             'filters' => array(
                 array('name' => 'StripTags'),
