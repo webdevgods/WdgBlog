@@ -1,41 +1,56 @@
-<?php
-if($this->category)
-{
-    ?>
-    <div class="pull-left" style='width:60%'>
-        <ul class="nav nav-tabs" id="myTab1" style="margin-bottom:10px">
-            <li class="active"><a>Info</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="info">
-                <div class="wdgadmin-toolbar">
-                    <a class="btn btn-small btn-primary addtooltip-right" title="Edit Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/edit", array("id" => $this->category->getId()));?>">
-                        <i class="icon-pencil"></i>
+<?php $this->headTitle()->append("Blog Category"); ?>
+
+<h1><?php echo $this->translate('Blog Category') ?></h1>
+
+<ul class="nav nav-tabs" id="blogCategoryTabs" style="margin-bottom:10px">
+    <li class="active"><a href="#tab_info">Info</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_info">
+        <div class="navbar filter-bar">
+            <div class="navbar-inner">
+                <div class="pull-right">
+                    <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/category/edit', array('id' => $this->category->getId())) ?>" class="btn btn-primary">
+                        <?php echo $this->translate('Edit Category') ?>
                     </a>
                 </div>
-                <table class="table table-condensed" >
-                    <tr><th>Id</th><td><?php echo $this->category->getId();?></td></tr>
-                    <tr><th>Title</th><td><?php echo $this->category->getName();?></td></tr>
-                    <tr><th>Slug</th><td><?php echo $this->category->getSlug();?></td></tr>
-                    <tr><th>Created</th><td><?php echo $this->category->getCreated()->format("m-d-Y");?></td></tr>
-                </table>
             </div>
         </div>
-    </div>
-    <div class="pull-right" style='width:35%;'>
-        <ul class="nav nav-tabs" id="myTab" style="margin-bottom:10px">
-            <li class="active"><a href="#submittals">N/A</a></li>
-            <!--<li><a href="#notes">Notes</a></li>-->
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="submittals">
+        <?php 
+        $values = array(
+            "Id" => $this->category->getId(),
+            "Name" => $this->category->getName(),
+            "Slug" => $this->category->getSlug(),
+            "Created" => $this->category->getCreated()->format("m-d-Y"),
+        );
 
-            <!--<div class="tab-pane" id="notes">Notes</div>-->
-            </div>
-        </div>
-    </div>
-    <?php
-}
-else echo "<div class='alert alert-block alert-error'>No blog category with that id</div>";
-?>
+        $count  = count($values);
+        $i      = 0;
+        
+        foreach($values as $label => $value)
+        {
+            $i++;
+            ?>
+            <label class="text-info"><?php echo $label;?>:</label>
+            <?php 
+            echo $value;
+            
+            if($i !== $count)
+                echo "<hr />";
+        }
+        ?>
+    </div>    
+</div>
+
 <div class="clearfix"></div>
+<?php
+$script = $this->inlineScript();
+$script->appendScript(<<<'EOT'
+    
+    $("#blogCategoryTabs a").click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+    });
+    
+EOT
+);

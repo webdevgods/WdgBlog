@@ -18,6 +18,13 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
     protected $postListElements = array('Title' => 'title', 'Slug' => 'slug');
     
     /**
+     * Array of data to show in the category list
+     * Key = Label in the list
+     * Value = entity property(expecting a 'getProperty())
+     */
+    protected $categoryListElements = array('Name' => 'name', 'Slug' => 'slug');
+    
+    /**
      * @var Filebank tag for blog thumbnail specific images
      */
     protected $thumbnailImageTag = "";
@@ -30,6 +37,16 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
     public function getPostListElements()
     {
         return $this->postListElements;
+    }
+    
+    public function setCategoryListElements(array $listElements)
+    {
+        $this->categoryListElements = $listElements;
+    }
+
+    public function getCategoryListElements()
+    {
+        return $this->categoryListElements;
     }
     
     /**

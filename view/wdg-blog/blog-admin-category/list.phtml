@@ -1,58 +1,79 @@
 <?php
-/* @var $paginator \Zend\Paginator\Paginator */
-$paginator = $this->categories;
+$this->headTitle()->append("Blog Categories");
+
+$getters = array();
+
+foreach ($this->categorylistElements as $element) {
+    $parts = explode('_', $element);
+    array_walk($parts, function (&$val) {
+        $val = ucfirst($val);
+    });
+    $getters[$element] = 'get' . implode('', $parts);
+}
 ?>
-<div class="wdgadmin-toolbar">
-    <a title="Add Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/add");?>" class="btn btn-small btn-primary addtooltip-left">
-        <i class="icon-plus"></i>
-    </a>
+
+<h1><?php echo $this->translate('Blog Categories') ?></h1>
+
+<div class="navbar filter-bar">
+    <div class="navbar-inner">
+        <div class="pull-right">
+            <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/category/add') ?>" class="btn btn-primary">
+                <?php echo $this->translate('Add New Category') ?>
+            </a>
+        </div>
+    </div>
 </div>
+
 <table class="table">
-    <tr>
-        <th style="width:40px;">&nbsp</th>
-        <th style="width:40px;">Id</th>
-        <th>Name</th>
-        <th>Slug</th>
-        <th>Creation Date</th>
-        <th style="width:40px;">&nbsp</th>
-    </tr>
+    <thead>
+        <tr>    
+            <th style="width:40px;">&nbsp</th>
+            <?php foreach ($this->categorylistElements as $name => $element): ?>
+                <th><?php echo $this->escapeHtml($name ? : $element); ?></th>
+            <?php endforeach; ?>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
     <?php 
-    foreach($paginator as $Category)
+    foreach($this->categories as $category)
     {
         ?>
         <tr>
             <td>
-                <a title="Show Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/show", array("id" => $Category->getId()));?>" class="btn btn-mini addtooltip-left">
-                    <i class="icon-eye-open"></i>
+                <a title="Show Category" href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/show", array("id" => $category->getId()));?>">
+                    <?php echo $category->getId();?>
                 </a>
             </td>
-            <td><?php echo $Category->getId();?></td>
-            <td><?php echo $Category->getName();?></td>
-            <td><?php echo $Category->getSlug();?></td>
-            <td><?php echo $Category->getCreated()->format("m-d-Y");?></td>
-            <td>
-                <a title="Delete Category" 
-                   href="<?php echo $this->url("zfcadmin/wdg-blog-admin/category/delete", array("id" => $Category->getId()));?>" 
-                   class="btn btn-danger btn-mini addtooltip-right"
-                >
-                    <i class="icon-trash"></i>
+            
+            <?php 
+            foreach ($this->categorylistElements as $element): ?>
+                <td class="cell cell-<?php echo $this->escapeHtml($element) ?>">
+                    <?php $parts = explode('_', $element); ?>
+                    <?php echo call_user_func(array($category, $getters[$element])); ?>
+                </td>
+            <?php endforeach; ?>
+                
+            <td class="cell cell-ctrls">
+                <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/category/edit', array('id' => $category->getId())); ?>">
+                    <?php echo $this->translate('Edit') ?>
+                </a>
+                |
+                <a href="<?php echo $this->url('zfcadmin/wdg-blog-admin/category/delete', array('id' => $category->getId())); ?>"
+                   onclick="return confirm('<?php echo $this->translate('Really delete category?') ?>')">
+                    <?php echo $this->translate('Delete') ?>
                 </a>
             </td>
         </tr>
         <?php
     }
     ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="<?php echo count($this->categorylistElements) + 2; ?>">
+                <?php echo $this->paginationControl($this->categories, 'Sliding', 'partial/paginator-item-control.phtml'); ?>
+            </td>
+        </tr>
+    </tfoot>
 </table>
-<?php
- echo $this->paginationControl(
-     // the paginator object
-     $paginator,
-     // the scrolling style
-     'sliding',
-     // the partial to use to render the control
-    'partial/paginator-item-control.phtml',
-     // the route to link to when a user clicks a control link
-     array(
-         'route' => 'zfcadmin/wdg-blog-admin/category/list'
-     )
- );

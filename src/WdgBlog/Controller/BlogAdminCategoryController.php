@@ -20,7 +20,7 @@ class BlogAdminCategoryController extends AbstractActionController
         
         return new ViewModel(array(
             'categories' => $paginator,
-            'categorylistElements' => $this->getOptions()->getPostListElements()
+            'categorylistElements' => $this->getOptions()->getCategoryListElements()
         ));
     }
     
